@@ -1,0 +1,19 @@
+
+════════════════════════════════════════════════════════════════════
+ Lab 2 Del 2 — Segmentation verifier
+════════════════════════════════════════════════════════════════════
+
+ Illegitima vägar — får INTE gå igenom:
+  [32m✓ OK[0m     attacker (IT) → mock-plc:502 (OT)                          [2m(expected BLOCK, got BLOCK)[0m
+  [32m✓ OK[0m     mock-plc (OT) → internet (1.1.1.1:53)                      [2m(expected BLOCK, got BLOCK)[0m
+
+ Legitima vägar — SKA fungera:
+  [32m✓ OK[0m     attacker (IT) → jump-server:22 (DMZ)                       [2m(expected ALLOW, got ALLOW)[0m
+  [32m✓ OK[0m     jump-server (DMZ) → mock-plc:502 (OT)                      [2m(expected ALLOW, got ALLOW)[0m
+  [32m✓ OK[0m     historian (DMZ) → mock-plc:502 (OT)                        [2m(expected ALLOW, got ALLOW)[0m
+  [32m✓ OK[0m     historian (DMZ) → internet (1.1.1.1:53)                    [2m(expected ALLOW, got ALLOW)[0m
+
+════════════════════════════════════════════════════════════════════
+ [32mAlla 6 kontroller OK[0m — segmenteringen är korrekt.
+ Spara denna output till del2/verify-output.txt
+════════════════════════════════════════════════════════════════════
