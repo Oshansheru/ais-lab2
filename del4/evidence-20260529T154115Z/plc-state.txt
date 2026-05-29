@@ -1,0 +1,2 @@
+HR: [5500, 5500, 0, 300]
+CO: [False, False, False, False, False, False, False, False]

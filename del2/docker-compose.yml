@@ -1,0 +1,76 @@
+# Lab 2 — Del 2 Sandbox
+# DELIVERED INTENTIONALLY BROKEN.
+#
+# Bug: `attacker` is dual-homed on both `it` and `ot` networks.
+# That lets the attacker reach `mock-plc:502` directly — bypassing
+# any segmentation we'd want in a real Purdue-zoned plant.
+#
+# Your job in Snabbspår Del 2:
+#   1. Identify the misconfiguration
+#   2. Fix the docker-compose.yml so `attacker` only sits on `it`
+#   3. Re-run ./verify.sh — all 6 checks should turn OK
+#
+# DO NOT change container roles, image, or port numbers — only network membership.
+#
+# Why is jump-server on three networks? It is the bastion — the ONE controlled
+# bridge from IT into OT, via DMZ. In a real plant this is the audited path.
+# Why is historian on dmz+ot? A SCADA historian reads production data on the OT
+# side and serves processed data on the DMZ side. It does not forward packets
+# (no ip_forward, no NAT) — Docker just gives it an interface per network.
+
+services:
+  attacker:
+    image: alpine:3.20
+    container_name: lab2-attacker
+    hostname: attacker
+    command: sh -c "apk add --no-cache nmap curl >/dev/null && sleep infinity"
+    networks:
+      it:
+
+  historian:
+    image: alpine:3.20
+    container_name: lab2-historian
+    hostname: historian
+    command: sh -c "apk add --no-cache nmap curl >/dev/null && sleep infinity"
+    networks:
+      dmz:
+      ot:
+
+  jump-server:
+    image: alpine:3.20
+    container_name: lab2-jump
+    hostname: jump-server
+    command: sh -c "apk add --no-cache openssh nmap curl >/dev/null && ssh-keygen -A && /usr/sbin/sshd -D -e"
+    networks:
+      it:
+      dmz:
+      ot:
+    ports:
+      - "127.0.0.1:2222:22"
+
+  mock-plc:
+    image: alpine:3.20
+    container_name: lab2-plc
+    hostname: mock-plc
+    # No apk install — OT is air-gapped (internal: true). busybox nc is built-in.
+    command: nc -lk -p 502 -e /bin/true
+    networks:
+      ot:
+
+networks:
+  it:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.10.0/24
+  dmz:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.20.0/24
+  ot:
+    driver: bridge
+    internal: true     # OT zone has no egress to the internet (air-gap)
+    ipam:
+      config:
+        - subnet: 172.30.50.0/24

@@ -1,0 +1,73 @@
+[
+    {
+        "Name": "del3_ot",
+        "Id": "c352a7bad30efd071858771bfc3139f2d51416854e272ce83542b2b9cfd3134c",
+        "Created": "2026-05-27T09:08:45.24839638Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.31.50.0/24",
+                    "IPRange": "",
+                    "Gateway": "172.31.50.1"
+                }
+            ]
+        },
+        "Internal": true,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {
+            "com.docker.network.bridge.name": "br-lab3-ot",
+            "com.docker.network.enable_ipv4": "true",
+            "com.docker.network.enable_ipv6": "false"
+        },
+        "Labels": {
+            "com.docker.compose.config-hash": "90eb69cf250304809697f63f2b7b1e9c3bba8b38e4c5bcaa578c2993a4226c4c",
+            "com.docker.compose.network": "ot",
+            "com.docker.compose.project": "del3",
+            "com.docker.compose.version": "5.0.1"
+        },
+        "Containers": {
+            "0042dfe0d9888b7e6460b6162d64a95f3df784186dab0f1f3641aaa5cb26b490": {
+                "Name": "lab3-plc",
+                "EndpointID": "be6d062a28720e2465108c4b1b93d95472e9a3bece3fcec1adf03ab835fda138",
+                "MacAddress": "5e:f7:32:e5:b5:3e",
+                "IPv4Address": "172.31.50.10/24",
+                "IPv6Address": ""
+            },
+            "8e9556f88989251db38ebdd38d8e7857e4a66776ba58edfa71269079feda81a1": {
+                "Name": "lab3-historian",
+                "EndpointID": "0a769fa2ddb11a1f14511c5953bfbe90d444ab993eca8620e279096492c2715f",
+                "MacAddress": "56:82:fd:71:e2:34",
+                "IPv4Address": "172.31.50.30/24",
+                "IPv6Address": ""
+            },
+            "eb135964d454b7ee35d14d92fd4ad3845dbecaafa25a99105ad55ab31fa50f0d": {
+                "Name": "lab3-hmi",
+                "EndpointID": "94e62ec1dfb9d0f25d72c2f4df57fb1b3fc162091689d79d3347896dd16f0829",
+                "MacAddress": "d2:17:eb:6c:8b:05",
+                "IPv4Address": "172.31.50.20/24",
+                "IPv6Address": ""
+            }
+        },
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.31.50.0/24": {
+                        "IPsInUse": 6,
+                        "DynamicIPsAvailable": 250
+                    }
+                }
+            }
+        }
+    }
+]
