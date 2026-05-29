@@ -60,3 +60,12 @@ alert modbus any any -> $OT_NET 502 ( \
     classtype:attempted-admin; \
     sid:1000101; rev:1; priority:1; \
 )
+
+alert tcp any any -> $OT_NET any ( \
+    msg:"OT-RECON: TCP scan against OT zone"; \
+    flow:to_server; \
+    flags:S; \
+    threshold: type both, track by_src, count 5, seconds 5; \
+    classtype:attempted-recon; \
+    sid:1000200; rev:1; \
+)
