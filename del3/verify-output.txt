@@ -1,0 +1,17 @@
+════════════════════════════════════════════════════════════════════
+ Lab 2 Del 3 — Detection verifier
+════════════════════════════════════════════════════════════════════
+
+Triggering attacks from jump-server...
+
+ Checking ./suricata-logs/fast.log for alerts...
+
+  ✓ FIRED  FC6  Write Single Register                   sid:2000006
+  ✓ FIRED  FC5  Force Single Coil                       sid:2000005
+  ✓ FIRED  FC16 Write Multiple Registers                sid:2000016
+  ✓ FIRED  New Modbus TCP session                       sid:2001000
+
+════════════════════════════════════════════════════════════════════
+ Alla 4 detektioner OK — Suricata-reglerna fungerar.
+ Spara fast.log + relevant del av eve.json som bevis i del3/.
+════════════════════════════════════════════════════════════════════
