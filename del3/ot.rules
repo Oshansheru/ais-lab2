@@ -1,0 +1,62 @@
+# Lab 2 — Del 3 — OT/ICS detection rules
+# ──────────────────────────────────────────────────────────────────────────
+# These rules are intentionally a thin starter set. Read them carefully,
+# then add 1–2 of your own in Steg 5 of the snabbspår.
+#
+# Why these four? On this range there is exactly one legitimate Modbus
+# client — the HMI poller, which only ever does FC3 (Read Holding Registers).
+# Therefore *every Modbus write* is suspicious by definition. We alert on
+# FC5, FC6, and FC16. We also alert on any new TCP session to port 502,
+# which catches reconnaissance.
+
+# ── FC5 — Force Single Coil (digital output, e.g. valve manipulation) ──
+alert modbus any any -> $OT_NET 502 ( \
+    msg:"OT-WRITE: Modbus Force Single Coil (FC5)"; \
+    flow:to_server,established; \
+    modbus: function 5; \
+    classtype:attempted-admin; \
+    sid:2000005; rev:1; \
+)
+
+# ── FC6 — Write Single Register (analog setpoint manipulation) ──
+alert modbus any any -> $OT_NET 502 ( \
+    msg:"OT-WRITE: Modbus Write Single Register (FC6)"; \
+    flow:to_server,established; \
+    modbus: function 6; \
+    classtype:attempted-admin; \
+    sid:2000006; rev:1; \
+)
+
+# ── FC16 — Write Multiple Registers (bulk write — highest severity) ──
+alert modbus any any -> $OT_NET 502 ( \
+    msg:"OT-WRITE-CRITICAL: Modbus Write Multiple Registers (FC16)"; \
+    flow:to_server,established; \
+    modbus: function 16; \
+    classtype:attempted-admin; \
+    sid:2000016; rev:1; priority:1; \
+)
+
+# ── New Modbus session to OT — any TCP SYN to port 502 ──
+alert tcp any any -> $OT_NET 502 ( \
+    msg:"OT-SESSION: New Modbus TCP session"; \
+    flow:to_server; \
+    flags:S; \
+    classtype:attempted-recon; \
+    sid:2001000; rev:1; \
+)
+
+alert modbus any any -> $OT_NET 502 ( \
+    msg:"OT-DIAG: Modbus Diagnostics (FC8) — potential DoS"; \
+    flow:to_server,established; \
+    modbus: function 8; \
+    classtype:attempted-dos; \
+    sid:1000100; rev:1; priority:1; \
+)
+
+alert modbus any any -> $OT_NET 502 ( \
+    msg:"OT-WRITE-CRITICAL: Setpoint > 8000 (unsafe range)"; \
+    flow:to_server,established; \
+    modbus: function 6, address 0, value >8000; \
+    classtype:attempted-admin; \
+    sid:1000101; rev:1; priority:1; \
+)
