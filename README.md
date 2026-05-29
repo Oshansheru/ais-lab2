@@ -14,6 +14,6 @@ Det svåraste att skydda i det här systemet är att Modbus inte har något inby
 Hej Erkan, det är din favorit ellev har :)
 
 Jag skriver relfectionen har också (Fillen liger i del 4) för att det kändes lite ber bones att ha en readme fil utan något att läsa, plus var skulle jag kunna sätta denna söta killen någonstans:
-![Alt-text](assets/bild.png)
+![Min katt](assets/20260515_020410.jpg)
 
 Men det var allt, hoppas att du tycker om vad jag har skrivit och vad jag har gjort, och oavsett när har en bra dag/kvell/natt
